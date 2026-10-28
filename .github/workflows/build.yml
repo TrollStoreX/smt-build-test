@@ -1,0 +1,48 @@
+name: Build ShowMyTouches
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout Theos
+        uses: actions/checkout@v4
+        with:
+          repository: theos/theos
+          path: theos
+          submodules: recursive
+
+      - name: Checkout SDKs
+        uses: actions/checkout@v4
+        with:
+          repository: theos/sdks
+          path: theos/sdks
+
+      - name: Install build tools
+        run: |
+          brew install ldid xz
+          echo "THEOS=$GITHUB_WORKSPACE/theos" >> $GITHUB_ENV
+          echo "$GITHUB_WORKSPACE/theos/bin" >> $GITHUB_PATH
+
+      - name: Build
+        working-directory: tweak
+        run: |
+          make clean || true
+          make package SIDELOADING=1 FINALPACKAGE=1 DEBUG=0
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p out
+          find tweak -name "*.deb" -exec cp {} out/ \;
+          find tweak -name "*.dylib" -exec cp {} out/ \;
+          ls -lh out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ShowMyTouches
+          path: out/*
