@@ -30,7 +30,7 @@ jobs:
           echo "$GITHUB_WORKSPACE/theos/bin" >> $GITHUB_PATH
 
       - name: Build
-        working-directory: tweak
+        
         run: |
           make clean || true
           make package SIDELOADING=1 FINALPACKAGE=1 DEBUG=0
@@ -38,8 +38,8 @@ jobs:
       - name: Collect artifacts
         run: |
           mkdir -p out
-          find tweak -name "*.deb" -exec cp {} out/ \;
-          find tweak -name "*.dylib" -exec cp {} out/ \;
+          find . -name "*.deb" -exec cp {} out/ \;
+          find . -name "*.dylib" -exec cp {} out/ \;
           ls -lh out
 
       - uses: actions/upload-artifact@v4
