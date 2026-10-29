@@ -4,6 +4,7 @@
 #import <Private/RPScreenRecorder.h>
 #import <objc/runtime.h>
 #import <dlfcn.h>
+#import <objc/message.h>
 
 #define kTouchViewKey @selector(ShowMyTouches_TouchView)
 
