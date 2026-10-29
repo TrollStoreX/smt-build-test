@@ -12,7 +12,7 @@ $(TWEAK_NAME)_CFLAGS = -fobjc-arc -Iinclude -ISMTPrefs/Models
 
 ifeq ($(SIDELOADING),1)
 $(TWEAK_NAME)_FILES += Utils/SMTSettingsTrigger.m SMTPrefs/DVNRootListController.m $(wildcard SMTPrefs/Categories/*/*.m)
-$(TWEAK_NAME)_CFLAGS += -DSIDELOADING=1 -ISMTPrefs -ISMTPrefs/Categories -DPACKAGE_VERSION='"$(PACKAGE_VERSION)"'
+$(TWEAK_NAME)_CFLAGS += -DSIDELOADING=1 -ISMTPrefs -ISMTPrefs/Categories -DPACKAGE_VERSION='"$(PACKAGE_VERSION)"' -I$(THEOS)/vendor/include/rootless -I$(THEOS)/vendor/include/roothide -I$(THEOS_PROJECT_DIR)/vendor/include
 $(TWEAK_NAME)_FRAMEWORKS = UIKit PhotosUI
 endif
 
